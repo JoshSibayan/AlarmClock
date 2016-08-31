@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 alarm_state.setText("Alarm set to: " + hour_string + minute_string);
 
+                // Put extra string into my_intent, indicates on button pressed
+                my_intent.putExtra("extra", "alarm on");
+
                 // Pending intent to delay intent until specific calendar time
                 pending_intent = PendingIntent.getBroadcast
                         (MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -75,7 +78,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 alarm_state.setText("Alarm Off!");
+
+                // Cancel alarm
                 alarm_manager.cancel(pending_intent);
+
+                // Put extra string into my_intent, indicates off button pressed
+                my_intent.putExtra("extra", "alarm off");
+
+                // Stop ringtone
+                sendBroadcast(my_intent);
             }
         });
     }

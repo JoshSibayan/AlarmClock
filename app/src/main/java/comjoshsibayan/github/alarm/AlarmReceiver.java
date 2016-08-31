@@ -13,8 +13,17 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.e("In receiver", "Yay!");
 
-        // Create intent and start ringtone service
+        // Fetch extra strings from MainActivity on button intent
+        String fetch_string = intent.getExtras().getString("extra");
+        Log.e("What is the key?", fetch_string);
+
+        // Create intent
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
+
+        // Pass extra string from MainActivity to RingtonePlayingService
+        service_intent.putExtra("extra", fetch_string);
+
+        // Start ringtone service
         context.startService(service_intent);
 
     }
