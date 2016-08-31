@@ -19,6 +19,9 @@
 
         <receiver android:name=".AlarmReceiver" />
 
+        <service android:name="RingtonePlayingService"
+            android:enabled="true"></service>
+
     </application>
 
 </manifest>
