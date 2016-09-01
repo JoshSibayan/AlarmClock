@@ -14,6 +14,8 @@ import android.widget.Toast;
 public class RingtonePlayingService extends Service {
 
     MediaPlayer media_song;
+    int startId;
+    boolean isRunning;
 
     @Nullable
     @Override
@@ -27,8 +29,9 @@ public class RingtonePlayingService extends Service {
 
         // Fetch extra strings (on/off)
         String state = intent.getExtras().getString("extra");
-        Log.e("Ringtone state: extra is ", state);
+        Log.e("Ringtone state: extra ", state);
 
+        // Converts extra strings from intent to start IDs
         assert state != null;
         switch (state) {
             case "alarm on":
@@ -43,17 +46,54 @@ public class RingtonePlayingService extends Service {
                 break;
         }
 
-        // Create instance of media player
-        media_song = MediaPlayer.create(this, R.raw.kalimba);
-        media_song.start();
+        if(!this.isRunning && startId == 1) {
+            // If no music playing and alarm on pressed, music plays
+            Log.e("there is no music, ", "and you want start");
+            // Create instance of media player, start ringtone
+            media_song = MediaPlayer.create(this, R.raw.kalimba);
+            media_song.start();
+
+            this.isRunning = true;
+            this.startId = 0;
+
+        } else if(this.isRunning && startId == 0) {
+            // If music playing and alarm off pressed, music stops
+            Log.e("there is music, ", "and you want end");
+            // Stop ringtone
+            media_song.stop();
+            media_song.reset();
+
+            this.isRunning = false;
+            this.startId = 0;
+
+        } else if(!this.isRunning && startId == 0) {
+            // Handles for when user presses buttons randomly
+            // If no music playing and alarm off pressed, do nothing
+            Log.e("there is no music, ", "and you want end");
+            this.isRunning = false;
+            startId = 0;
+
+        } else if(this.isRunning && startId == 1) {
+            // If music playing and alarm on pressed, do nothing
+            Log.e("there is music, ", "and you want start");
+            this.isRunning = true;
+            this.startId = 1;
+
+        } else {
+            // Catch overlooked edge cases
+            Log.e("else, ", "somehow you reached this");
+        }
 
         return START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        // Tell the user we stopped
-        Toast.makeText(this, "onDestroy called", Toast.LENGTH_SHORT).show();
+        // Tell user we stopped
+        Log.e("onDestroy called", "ta da");
+
+        super.onDestroy();
+        this.isRunning = false;
     }
 
 }
