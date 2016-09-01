@@ -8,11 +8,14 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
@@ -34,7 +37,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Calendar calendar = Calendar.getInstance();
 
         // Create intent for AlarmReceiver class, send only once
-        final Intent my_intent = new Intent(this.context, AlarmReceiver.class);
+        final Intent my_intent = new Intent(MainActivity.this, AlarmReceiver.class);
+
+        // Create spinner in main UI and corresponding ArrayAdapter
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+                (this, R.array.stepbrothers_array, android.R.layout.simple_spinner_item);
+        // Specify layout used for option list
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply adapter to spinner
+        spinner.setAdapter(adapter);
 
         // Initialize start button and create onClick listener to start alarm
         Button alarm_on = (Button) findViewById(R.id.alarm_on);
@@ -57,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(hour > 12) hour_string = String.valueOf(hour - 12);
                 if(minute < 10) minute_string = "0" + String.valueOf(minute);
 
-                alarm_state.setText("Alarm set to: " + hour_string + minute_string);
+                alarm_state.setText("Alarm set to: " + hour_string + ":" + minute_string);
 
                 // Put extra string into my_intent, indicates on button pressed
                 my_intent.putExtra("extra", "alarm on");
@@ -93,6 +105,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 }

@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "comjoshsibayan.github.alarm"
         // used to be 14
-        minSdkVersion 24
+        minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
