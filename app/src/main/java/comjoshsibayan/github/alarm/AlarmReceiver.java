@@ -14,8 +14,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.e("In receiver", "Yay!");
 
         // Fetch extra strings from MainActivity on button intent
+        // Determines whether user presses on or off
         String fetch_string = intent.getExtras().getString("extra");
         Log.e("What is the key?", fetch_string);
+
+        // Fetch extra longs from MainActivity intent
+        // Tells which value user selects from spinner
+        int get_sound_choice = intent.getExtras().getInt("sound_choice");
+        //Log.e("Sound choice is ", get_sound_choice.toString());
 
         // Create intent
         Intent service_intent = new Intent(context, RingtonePlayingService.class);

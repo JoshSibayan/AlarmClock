@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TextView alarm_state;
     Context context;
     PendingIntent pending_intent;
+    int sound_select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply adapter to spinner
         spinner.setAdapter(adapter);
+        // Set onClickListener for spinner
+        spinner.setOnItemSelectedListener(this);
 
-        // Initialize start button and create onClick listener to start alarm
+
+        // Initialize start button and create onClickListener to start alarm
         Button alarm_on = (Button) findViewById(R.id.alarm_on);
         alarm_on.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +81,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 // Put extra string into my_intent, indicates on button pressed
                 my_intent.putExtra("extra", "alarm on");
 
+                // Input extra long into my_intent
+                // Requests specific value from spinner
+                my_intent.putExtra("sound_choice", sound_select);
+
+
                 // Pending intent to delay intent until specific calendar time
                 pending_intent = PendingIntent.getBroadcast
                         (MainActivity.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -97,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 // Put extra string into my_intent, indicates off button pressed
                 my_intent.putExtra("extra", "alarm off");
 
+                // Also input extra long for alarm off to prevent null pointer exception
+                my_intent.putExtra("sound_choice", sound_select);
+
                 // Stop ringtone
                 sendBroadcast(my_intent);
             }
@@ -109,8 +124,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        // Output id which user selected
+        //Toast.makeText(parent.getContext(), "Spinner item is " + id, Toast.LENGTH_SHORT).show();
+        sound_select = (int) id;
     }
 
     @Override
