@@ -2,6 +2,7 @@
     <string name="app_name">Alarm</string>
 
     <string-array name="stepbrothers_array">
+        <item>Pick a sound</item>
         <item>Catalina Wine Mixer</item>
         <item>Inclement Weather</item>
         <item>Lightning Bolt</item>

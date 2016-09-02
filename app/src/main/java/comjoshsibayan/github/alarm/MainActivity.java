@@ -119,11 +119,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         // Output id which user selected
         //Toast.makeText(parent.getContext(), "Spinner item is " + id, Toast.LENGTH_SHORT).show();
