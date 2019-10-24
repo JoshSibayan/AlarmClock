@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Initialize alarm manager, time picker, text update
         final AlarmManager alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        final TimePicker alarm_timepicker = (TimePicker) findViewById(R.id.timePicker);
-        final TextView alarm_state = (TextView) findViewById(R.id.alarm_state);
+        final TimePicker alarm_timepicker =  findViewById(R.id.timePicker);
+        final TextView alarm_state = findViewById(R.id.alarm_state);
 
         // Create calendar instance
         final Calendar calendar = Calendar.getInstance();
